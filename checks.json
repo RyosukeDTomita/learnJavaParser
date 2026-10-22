@@ -1,0 +1,115 @@
+{
+  "checks": [
+    {
+      "name": "tokens",
+      "cwd": "examples",
+      "cmd": "./run-java.sh Tokens.java",
+      "expect": [
+        "List   IDENTIFIER",
+        "<      LT",
+        "String IDENTIFIER",
+        ">      GT",
+        ">      GT",
+        "a      IDENTIFIER",
+        "b      IDENTIFIER",
+        ">      GT",
+        ">      GT",
+        "1      INTEGER_LITERAL",
+        "exit code: 0"
+      ]
+    },
+    {
+      "name": "tree",
+      "cwd": "examples",
+      "cmd": "./run-java.sh Tree.java",
+      "expect": [
+        "(- (+ 1 (* 2 3)) 4)",
+        "type: List<List<String>> (ClassOrInterfaceType)",
+        "init: (>> b 1)",
+        "exit code: 0"
+      ]
+    },
+    {
+      "name": "calc",
+      "cwd": "examples",
+      "cmd": "direnv exec ~/atcoder runghc haskell/Calc.hs 2>/dev/null; echo \"exit code: $?\"",
+      "expect": [
+        "[TNum 1,TOp '+',TNum 2,TOp '*',TNum 3,TOp '-',TNum 4]",
+        "1 + 2 * 3 - 4  =>  (- (+ 1 (* 2 3)) 4)",
+        "1 - 2 - 3  =>  (- (- 1 2) 3)",
+        "(1 + 2) * 3  =>  (* (+ 1 2) 3)",
+        "1 + * 2  =>  parse error",
+        "exit code: 0"
+      ]
+    },
+    {
+      "name": "leftrec",
+      "cwd": "examples",
+      "cmd": "./haskell/leftrec.sh",
+      "expect": [
+        "LeftRec: Stack space overflow",
+        "exit code: 2"
+      ]
+    },
+    {
+      "name": "lookahead",
+      "cwd": "examples",
+      "cmd": "./run-java.sh Lookahead.java",
+      "expect": [
+        "foo.bar.Baz x = y;       -> VariableDeclarationExpr",
+        "foo.bar.baz = y;         -> AssignExpr",
+        "a.b.c.d.e.f.g.h.I x = y; -> VariableDeclarationExpr",
+        "exit code: 0"
+      ]
+    },
+    {
+      "name": "lookahead-count",
+      "cwd": ".",
+      "cmd": "grep -c LOOKAHEAD ref/java.jj; grep -c '^ *LOOKAHEAD *=' ref/java.jj",
+      "expect": [
+        "84",
+        "0"
+      ]
+    },
+    {
+      "name": "notypes",
+      "cwd": "examples",
+      "cmd": "./run-java.sh NoTypes.java",
+      "expect": [
+        "successful: true",
+        "successful: false",
+        "problem: (line 1,col 31) Parse error. Found \";\", expected one of",
+        "calculateResolvedType: Symbol resolution not configured",
+        "exit code: 0"
+      ]
+    },
+    {
+      "name": "javac",
+      "cwd": "examples",
+      "cmd": "java java/bad/A.java 2>&1; echo \"exit code: $?\"",
+      "expect": [
+        "error: incompatible types: int cannot be converted to String",
+        "error: cannot find symbol",
+        "symbol:   variable undefinedVar",
+        "exit code: 1"
+      ]
+    },
+    {
+      "name": "grammar-lines",
+      "cwd": ".",
+      "cmd": "wc -l < ref/java.jj",
+      "expect": [
+        "6153"
+      ]
+    },
+    {
+      "name": "visitor-classes",
+      "cwd": "examples",
+      "cmd": "unzip -l lib/javaparser-core-3.28.2.jar | grep -oE 'visitor/(VoidVisitorAdapter|GenericVisitor)\\.class'",
+      "expect": [
+        "visitor/GenericVisitor.class",
+        "visitor/VoidVisitorAdapter.class"
+      ]
+    }
+  ]
+}

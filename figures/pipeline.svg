@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 680" role="img" aria-labelledby="t d" font-family="sans-serif">
+  <title id="t">JavaParserの処理の流れ</title>
+  <desc id="d">ビルド時に、文法ファイルjava.jjからParserGeneratorCCが字句解析器と構文解析器を生成する。実行時は、文字列を字句解析でトークン列にし、構文解析でASTにする。javaparser-coreはここまでで、名前や型の解決は別モジュールのSymbolSolverが行う。</desc>
+  <defs>
+    <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="ah" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+  <style>
+    .bg { fill: #ffffff; }
+    .build { fill: #eef2fb; stroke: #3b5bab; }
+    .proc { fill: #e6f4ea; stroke: #1e7b3a; }
+    .ext { fill: #f3f3f3; stroke: #666666; }
+    .data { fill: #fffbe6; stroke: #9a7b00; }
+    .ln { stroke: #333333; fill: none; stroke-width: 2; }
+    .gen { stroke: #3b5bab; fill: none; stroke-width: 2; stroke-dasharray: 6 4; }
+    .cut { stroke: #a8521a; stroke-width: 2; stroke-dasharray: 8 5; }
+    .ah { fill: #333333; }
+    .h { fill: #111111; font-size: 16px; font-weight: bold; }
+    .s { fill: #333333; font-size: 14px; }
+    .g { fill: #3b5bab; font-size: 14px; font-weight: bold; }
+    .c { fill: #a8521a; font-size: 14px; font-weight: bold; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1b1b1f; }
+      .build { fill: #1a2442; stroke: #8fa8ec; }
+      .proc { fill: #12301c; stroke: #6fd08c; }
+      .ext { fill: #2a2a2e; stroke: #a0a0a0; }
+      .data { fill: #332b05; stroke: #e0c341; }
+      .ln { stroke: #d0d0d0; }
+      .gen { stroke: #8fa8ec; }
+      .cut { stroke: #f0a46a; }
+      .ah { fill: #d0d0d0; }
+      .h { fill: #f2f2f2; } .s { fill: #d6d6d6; }
+      .g { fill: #8fa8ec; } .c { fill: #f0a46a; }
+    }
+  </style>
+  <rect class="bg" x="0" y="0" width="460" height="680"/>
+
+  <!-- ビルド時 -->
+  <rect class="build" x="10" y="10" width="190" height="70" rx="8" stroke-width="2"/>
+  <text class="h" x="24" y="40">java.jj</text>
+  <text class="s" x="190" y="40" text-anchor="end">§1</text>
+  <text class="s" x="24" y="64">文法ファイル(6153行)</text>
+  <line class="ln" x1="200" y1="45" x2="246" y2="45" marker-end="url(#arw)"/>
+  <rect class="build" x="250" y="10" width="200" height="70" rx="8" stroke-width="2"/>
+  <text class="h" x="264" y="40">ParserGeneratorCC</text>
+  <text class="s" x="264" y="64">JavaCCのフォーク</text>
+
+  <!-- 生成: ビルド時 → 2つの生成クラス -->
+  <path class="gen" d="M380,80 V367"/>
+  <line class="gen" x1="380" y1="209" x2="306" y2="209" marker-end="url(#arw)"/>
+  <line class="gen" x1="380" y1="367" x2="306" y2="367" marker-end="url(#arw)"/>
+  <text class="g" x="390" y="150">生成</text>
+
+  <!-- 実行時 -->
+  <rect class="data" x="40" y="110" width="230" height="40" rx="20" stroke-width="2"/>
+  <text class="s" x="155" y="135" text-anchor="middle">ソースの文字列</text>
+  <line class="ln" x1="155" y1="150" x2="155" y2="172" marker-end="url(#arw)"/>
+
+  <rect class="proc" x="10" y="174" width="290" height="70" rx="8" stroke-width="2"/>
+  <text class="h" x="24" y="202">字句解析</text>
+  <text class="s" x="290" y="202" text-anchor="end">§2</text>
+  <text class="s" x="24" y="228">GeneratedJavaParserTokenManager</text>
+  <line class="ln" x1="155" y1="244" x2="155" y2="266" marker-end="url(#arw)"/>
+
+  <rect class="data" x="40" y="268" width="230" height="40" rx="20" stroke-width="2"/>
+  <text class="s" x="155" y="293" text-anchor="middle">トークン列</text>
+  <line class="ln" x1="155" y1="308" x2="155" y2="330" marker-end="url(#arw)"/>
+
+  <rect class="proc" x="10" y="332" width="290" height="70" rx="8" stroke-width="2"/>
+  <text class="h" x="24" y="360">構文解析</text>
+  <text class="s" x="290" y="360" text-anchor="end">§3〜§5</text>
+  <text class="s" x="24" y="386">GeneratedJavaParser</text>
+  <line class="ln" x1="155" y1="402" x2="155" y2="424" marker-end="url(#arw)"/>
+
+  <rect class="data" x="40" y="426" width="230" height="40" rx="20" stroke-width="2"/>
+  <text class="s" x="155" y="451" text-anchor="middle">AST(木)</text>
+
+  <!-- javaparser-core の境界 -->
+  <line class="cut" x1="10" y1="490" x2="450" y2="490"/>
+  <text class="c" x="450" y="482" text-anchor="end">javaparser-coreはここまで</text>
+  <line class="ln" x1="155" y1="466" x2="155" y2="528" marker-end="url(#arw)"/>
+
+  <rect class="ext" x="10" y="530" width="290" height="70" rx="8" stroke-width="2"/>
+  <text class="h" x="24" y="558">名前・型の解決</text>
+  <text class="s" x="290" y="558" text-anchor="end">§6</text>
+  <text class="s" x="24" y="584">SymbolSolver(別モジュール)</text>
+  <line class="ln" x1="155" y1="600" x2="155" y2="622" marker-end="url(#arw)"/>
+
+  <rect class="data" x="40" y="624" width="230" height="40" rx="20" stroke-width="2"/>
+  <text class="s" x="155" y="649" text-anchor="middle">型・宣言</text>
+</svg>

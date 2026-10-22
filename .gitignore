@@ -1,0 +1,16 @@
+# 依存(別プロジェクトへのsymlink)
+node_modules
+
+# READMEから生成するHTML
+dist/
+
+# 検証ツール(vlmkit / first-reader / playwright)の出力
+.vlmkit/
+.first-reader/
+test-results/
+figures/.figure-check/
+
+# Java / Haskellのビルド生成物
+*.class
+*.hi
+*.o

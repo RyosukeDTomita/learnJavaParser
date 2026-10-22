@@ -1,0 +1,2 @@
+{ "labels": ["java.jj", "ParserGeneratorCC", "JavaCCのフォーク", "生成", "ソースの文字列", "字句解析", "トークン列", "構文解析", "GeneratedJavaParser", "AST(木)", "javaparser-coreはここまで", "名前・型の解決", "SymbolSolver(別モジュール)", "型・宣言", "§1", "§2", "§6"],
+  "forbidden": ["手書き", "LR", "構文解析で型を検査"] }
